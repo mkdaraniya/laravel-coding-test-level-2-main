@@ -14,7 +14,6 @@ class CreateProjectUserTable extends Migration
     public function up()
     {
         Schema::create('project_user', function (Blueprint $table) {
-            $table->uuid('id')->primary();
 			$table->uuid('project_id')->nullable(false);
 			$table->uuid('user_id')->nullable(false);
             $table->timestamps();

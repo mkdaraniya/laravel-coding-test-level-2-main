@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Project;
+use App\Models\ProjectUser;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
@@ -17,6 +18,7 @@ class ProjectController extends Controller
     public function index()
     {
         try{
+            $this->authorize('project-module');
             $project = Project::all();
             return ApiResponder::successResponse($project);
         }catch(\Exception $e){
@@ -33,6 +35,7 @@ class ProjectController extends Controller
     public function store(Request $request)
     {
         try{
+            $this->authorize('project-module');
             $validator = Validator::make(request()->all(), [
                 'name' => 'required|string|max:255|unique:projects'
             ]);
@@ -60,6 +63,7 @@ class ProjectController extends Controller
     public function show(Project $project)
     {
         try{
+            $this->authorize('project-module');
             return $this->successResponse($project);
         }catch(\Exception $e){
             return $this->errorResponse($e->getMessage(),$e->getCode());
@@ -77,6 +81,7 @@ class ProjectController extends Controller
     public function update(Request $request, Project $project)
     {
         try{
+            $this->authorize('project-module');
             $validator = Validator::make(request()->all(), [
                 'name' => 'required|string|max:255|unique:projects,name,'.$project->id,
             ]);
@@ -94,6 +99,38 @@ class ProjectController extends Controller
     }
 
     /**
+     * assign project to user
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function assignProject(Request $request)
+    {
+        try{
+            $this->authorize('project-module');
+            $validator = Validator::make(request()->all(), [
+                'user_id' => 'required|string|max:255',
+                'project_id' => 'required|string|max:255'
+            ]);
+
+            if($validator->fails()){
+                return $this->errorResponse($validator->messages(), 422);
+            }
+
+            $projectUser = new ProjectUser();
+            $projectUser->user_id = $request->user_id;
+            $projectUser->project_id = $request->project_id;
+            $projectUser->save();
+
+            return $this->successResponse($projectUser, 200);
+
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
+    }
+
+    /**
      * Remove the specified resource from storage.
      *
      * @param  int  $id
@@ -102,6 +139,7 @@ class ProjectController extends Controller
     public function destroy(Project $project)
     {
         try{
+            $this->authorize('project-module');
             $project->delete();
             return $this->successResponse('Project Deleted',200);
         }catch(\Exception $e){

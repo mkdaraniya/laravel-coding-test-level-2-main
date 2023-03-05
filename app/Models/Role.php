@@ -11,9 +11,9 @@ class Role extends Model
 {
     use HasFactory, UuidTrait;
 
-    public function users() {
+    protected $guarded=[];
 
-        return $this->belongsToMany(User::class,'users_roles');
-            
+    public function users() {
+        return $this->hasMany(User::class);
      }
 }
