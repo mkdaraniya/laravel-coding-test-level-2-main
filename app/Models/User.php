@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Role;
 use App\Models\Task;
 use App\Traits\UuidTrait;
 use App\Traits\ApiResponder;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, UuidTrait, ApiResponder;
+    use HasApiTokens, Notifiable, UuidTrait, ApiResponder;
 
     /**
      * The attributes that are mass assignable.
@@ -23,6 +22,7 @@ class User extends Authenticatable
     protected $fillable = [
         'name',
         'username',
+        'role_id',
         'password',
     ];
 
@@ -37,15 +37,6 @@ class User extends Authenticatable
     ];
 
     /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
-    protected $casts = [
-        'email_verified_at' => 'datetime',
-    ];
-    
-    /**
      * The tasks that the user has
      *
      * @return HasMany
@@ -53,6 +44,10 @@ class User extends Authenticatable
     public function tasks()
     {
         return $this->hasMany(Task::class);
+    }
+
+    public function role(){
+        return $this->belongsTo(Role::class);
     }
 
 }

@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Exception;
 use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Validator;
 
@@ -19,6 +20,7 @@ class TaskController extends Controller
     public function index()
     {
         try{
+            $this->authorize('task-module');
             $task = Task::all();
             return ApiResponder::successResponse($task);
         }catch(\Exception $e){
@@ -36,10 +38,11 @@ class TaskController extends Controller
     public function store(Request $request)
     {
         try{
+            $this->authorize('task-module');
+
             $data = $request->all();
             $validator = Validator::make(request()->all(), [
                 'title' => 'required|string|max:255',
-                'status' => 'required|boolean|max:255',
                 'project_id' => 'required',
                 'user_id' => 'required'
             ]);
@@ -51,13 +54,13 @@ class TaskController extends Controller
             $task = Task::create([
                 'title' => $data['title'],
                 'description' => isset($data['description']) ? $data['description'] : '',
-                'status' => $data['status'],
+                'status' => 'NOT_STARTED',
                 'project_id' => $data['project_id'],
                 'user_id' => $data['user_id'],
             ]);
 
             return $this->successResponse($task, 201);
-        }catch(QueryException  $e){
+        }catch(Exception  $e){
             return $this->errorResponse($e->getMessage(),$e->getCode());
         }
     }
@@ -71,6 +74,7 @@ class TaskController extends Controller
     public function show(Task $task)
     {
         try{
+            $this->authorize('task-module');
             return $this->successResponse($task);
         }catch(\Exception $e){
             return $this->errorResponse($e->getMessage(),$e->getCode());
@@ -87,9 +91,10 @@ class TaskController extends Controller
     public function update(Request $request, Task $task)
     {
         try{
+            $this->authorize('task-module');
             $validator = Validator::make(request()->all(), [
                 'title' => 'required|string|max:255',
-                'status' => 'required|boolean|max:255'
+                'status' => 'required|max:255'
             ]);
 
             if($validator->fails()){
@@ -113,6 +118,7 @@ class TaskController extends Controller
     public function destroy(Task $task)
     {
         try{
+            $this->authorize('task-module');
             $task->delete();
             return $this->successResponse('Task Deleted',200);
         }catch(\Exception $e){

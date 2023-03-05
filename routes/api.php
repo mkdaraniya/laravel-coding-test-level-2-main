@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\TaskController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\RoleController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,12 +19,26 @@ use App\Http\Controllers\ProjectController;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
+
 
 Route::prefix('v1')->group(function () {
-    Route::apiResource('users', UserController::class);
-    Route::apiResource('projects', ProjectController::class);
-    Route::apiResource('tasks', TaskController::class);
+
+    Route::post('/register',[AuthController::class,'register']);
+    Route::post('/login',[AuthController::class,'login']);
+
+
+
+    Route::group(['middleware' => ['auth:sanctum']], function () {
+        
+        Route::apiResource('users', UserController::class);
+        Route::post('/logout',[AuthController::class,'logout']);
+        Route::apiResource('roles', RoleController::class);
+        
+        Route::apiResource('projects', ProjectController::class);
+        Route::post('assign-project', [ProjectController::class,'assignProject']);
+        Route::apiResource('tasks', TaskController::class);
+    });
+     
+
+
 });
