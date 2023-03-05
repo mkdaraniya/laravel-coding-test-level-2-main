@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
+use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
@@ -13,17 +16,12 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        try{
+            $project = Project::all();
+            return ApiResponder::successResponse($project);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
     /**
@@ -34,7 +32,23 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $validator = Validator::make(request()->all(), [
+                'name' => 'required|string|max:255|unique:projects'
+            ]);
+
+            if($validator->fails()){
+                return $this->errorResponse($validator->messages(), 422);
+            }
+
+            $project = Project::create([
+                'name' => $request->get('name'),
+            ]);
+
+            return $this->successResponse($project, 201);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
     /**
@@ -43,21 +57,15 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Project $project)
     {
-        //
+        try{
+            return $this->successResponse($project);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -66,9 +74,23 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Project $project)
     {
-        //
+        try{
+            $validator = Validator::make(request()->all(), [
+                'name' => 'required|string|max:255|unique:projects,name,'.$project->id,
+            ]);
+
+            if($validator->fails()){
+                return $this->errorResponse($validator->messages(), 422);
+            }
+
+            $project->update($request->all());
+            return $this->successResponse($project, 200);
+
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
     /**
@@ -77,8 +99,13 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Project $project)
     {
-        //
+        try{
+            $project->delete();
+            return $this->successResponse('Project Deleted',200);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 }

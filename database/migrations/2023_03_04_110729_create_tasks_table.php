@@ -17,10 +17,9 @@ class CreateTasksTable extends Migration
             $table->uuid('id')->primary();
             $table->string('title');
             $table->text('description')->nullable();
-            $table->boolean('status');
+            $table->string('status');
             $table->uuid('user_id')->nullable(false);
             $table->uuid('project_id')->nullable(false);
-            $table->softDeletes();
             $table->timestamps();
             
             $table->index('project_id');

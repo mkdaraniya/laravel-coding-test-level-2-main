@@ -2,18 +2,17 @@
 
 namespace App\Models;
 
+use App\Models\Task;
 use App\Traits\UuidTrait;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Project extends Model
 {
-    use HasFactory, UuidTrait, SoftDeletes;
+    use HasFactory, UuidTrait;
     
     protected $fillable = [
-        'title',
-        'status',
+        'name',
     ];
     
     public function tasks(){

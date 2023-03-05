@@ -2,7 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Task;
+use App\Traits\ApiResponder;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Validator;
 
 class TaskController extends Controller
 {
@@ -13,18 +18,14 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        try{
+            $task = Task::all();
+            return ApiResponder::successResponse($task);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -34,7 +35,31 @@ class TaskController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $data = $request->all();
+            $validator = Validator::make(request()->all(), [
+                'title' => 'required|string|max:255',
+                'status' => 'required|boolean|max:255',
+                'project_id' => 'required',
+                'user_id' => 'required'
+            ]);
+
+            if($validator->fails()){
+                return $this->errorResponse($validator->messages(), 422);
+            }
+
+            $task = Task::create([
+                'title' => $data['title'],
+                'description' => isset($data['description']) ? $data['description'] : '',
+                'status' => $data['status'],
+                'project_id' => $data['project_id'],
+                'user_id' => $data['user_id'],
+            ]);
+
+            return $this->successResponse($task, 201);
+        }catch(QueryException  $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
     /**
@@ -43,20 +68,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Task $task)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        try{
+            return $this->successResponse($task);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
     /**
@@ -66,9 +84,24 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Task $task)
     {
-        //
+        try{
+            $validator = Validator::make(request()->all(), [
+                'title' => 'required|string|max:255',
+                'status' => 'required|boolean|max:255'
+            ]);
+
+            if($validator->fails()){
+                return $this->errorResponse($validator->messages(), 422);
+            }
+
+            $task->update($request->all());
+            return $this->successResponse($task, 200);
+
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 
     /**
@@ -77,8 +110,13 @@ class TaskController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Task $task)
     {
-        //
+        try{
+            $task->delete();
+            return $this->successResponse('Task Deleted',200);
+        }catch(\Exception $e){
+            return $this->errorResponse($e->getMessage(),$e->getCode());
+        }
     }
 }

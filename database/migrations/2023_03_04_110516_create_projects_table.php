@@ -16,7 +16,6 @@ class CreateProjectsTable extends Migration
         Schema::create('projects', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->string('name')->unique();
-            $table->softDeletes();
             $table->timestamps();
         });
     }
