@@ -1,0 +1,588 @@
+{
+	"info": {
+		"_postman_id": "65871aca-7f5a-42cd-8459-c20a75b5b59e",
+		"name": "Laravel Coding Testing",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "1920380"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "One User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/users/88732655-b87f-472e-9f2d-254f985a3568",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"users",
+								"88732655-b87f-472e-9f2d-254f985a3568"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/users",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"test\",\r\n    \"username\":\"user\",\r\n    \"password\":\"password\",\r\n    \"password_confirmation\":\"password\",\r\n    \"role_id\":\"7628408b-6389-4da9-a61d-aa6a08907f99\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/users",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"users"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"milind\",\r\n    \"username\" : \"milind2\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/users/dace890f-ee50-4de2-a9ca-5221867838d6",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"users",
+								"dace890f-ee50-4de2-a9ca-5221867838d6"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/users/efd9b953-e073-441c-b062-1d50f2df44c4",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"users",
+								"efd9b953-e073-441c-b062-1d50f2df44c4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\"my admin\",\r\n    \"username\":\"admin\",\r\n    \"password\":\"password\",\r\n    \"password_confirmation\":\"password\",\r\n    \"role_id\":\"0e4ab3ce-01b3-4e7c-9a09-6ba2db90b8e8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/register",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Login",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/login",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Logout",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\" : \"admin\",\r\n    \"password\" : \"password\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/logout",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"logout"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Roles",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/roles",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"roles"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Projects",
+			"item": [
+				{
+					"name": "One Project",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/projects/72138d4f-3072-4164-951b-4ffe37c97a24",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"72138d4f-3072-4164-951b-4ffe37c97a24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Project",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"q\":\"first\",\r\n    \"pageIndex\":0,\r\n    \"pageSize\":3,\r\n    \"sortBy\":\"name\",\r\n    \"sortDirection\":\"DESC\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/projects",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Project",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\":\" new project 6\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/projects",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"projects"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Assign Project To User",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\":\"853f44ac-a7d3-48dc-8897-cb41833aff12\",\r\n    \"project_id\":\"62be63ae-edf8-4504-9568-cf789d7333e9\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/assign-project",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"assign-project"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Project",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"name\" : \"My Project 5\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/projects/72138d4f-3072-4164-951b-4ffe37c97a24",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"72138d4f-3072-4164-951b-4ffe37c97a24"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Project",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/projects/72138d4f-3072-4164-951b-4ffe37c97a24",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"projects",
+								"72138d4f-3072-4164-951b-4ffe37c97a24"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Tasks",
+			"item": [
+				{
+					"name": "One Task",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/tasks/4f5168c9-0047-4c88-9869-96c1499a62ab",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"4f5168c9-0047-4c88-9869-96c1499a62ab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "All Task",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/tasks",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Task",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{bearer_token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"My Task 2\",\r\n    \"description\":\"this is description\",\r\n    \"project_id\":\"62be63ae-edf8-4504-9568-cf789d7333e9\",\r\n    \"user_id\":\"4b279c3f-301b-4c8e-89c9-f449d48036b8\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/tasks",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"tasks"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Task",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"title\":\"My first task\",\r\n    \"description\":\"this is test description with images\",\r\n    \"status\":true\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}api/v1/tasks/4f5168c9-0047-4c88-9869-96c1499a62ab",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"4f5168c9-0047-4c88-9869-96c1499a62ab"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove Task",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{url}}api/v1/tasks/2c9d3c51-b013-4881-b1d1-7214c9ad4298",
+							"host": [
+								"{{url}}api"
+							],
+							"path": [
+								"v1",
+								"tasks",
+								"2c9d3c51-b013-4881-b1d1-7214c9ad4298"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
