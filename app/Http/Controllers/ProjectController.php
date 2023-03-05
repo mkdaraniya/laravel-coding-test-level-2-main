@@ -19,8 +19,30 @@ class ProjectController extends Controller
     {
         try{
             $this->authorize('project-module');
-            $project = Project::all();
-            return ApiResponder::successResponse($project);
+
+            $data = request()->all();
+
+            $pageIndex = ($data['pageIndex']) ? $data['pageIndex'] : 0;
+            $pageSize = ($data['pageSize']) ? $data['pageSize'] : 3;
+            $sortBy = ($data['sortBy']) ? $data['sortBy'] : 'name'; 
+            $sortDirection = ($data['sortDirection']) ? $data['sortDirection'] : 'ASC'; 
+
+
+            $project = Project::select('id','name','created_at','updated_at');
+            if(isset($data['q']) && !empty($data['q'])){
+                $project = $project->where('name', 'LIKE', '%'. $data['q']. '%');
+            }
+            $project = $project->orderBy($sortBy, $sortDirection)->skip($pageIndex * $pageSize)->limit($pageSize)->get();
+
+            $result = [
+                'data' => $project,
+                'pageIndex' => $pageIndex,
+                'pageSize' => $pageSize,
+                'sortBy' => $sortBy,
+                'sortDirection' => $sortDirection
+            ];
+            
+            return ApiResponder::successResponse($result);
         }catch(\Exception $e){
             return $this->errorResponse($e->getMessage(),$e->getCode());
         }
